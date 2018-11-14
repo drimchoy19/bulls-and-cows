@@ -117,10 +117,52 @@ public class Game {
 			}
 			gameNums[i] = select;
 		}
+		sc.close();
+
+	}
+	
+	public void select() {
+
+		Scanner sc = new Scanner(System.in);
+		String in;
+		boolean validInput = false;
+		String[] split = null;
+		while (!validInput) {
+			System.out.println("Choose 4 numbers");
+			in = sc.nextLine();
+			validInput = Game.validate(in);
+			split = in.split("");
+			if (split.length < 4) {
+				validInput = false;
+			}
+			if (split.length == 4) {
+				for (int i = 0; i < 4; i++) {
+					for (int j = i + 1; j < 4; j++) {
+
+						if (split[i].equals(split[j])) {
+							System.out.println("Invalid numbers");
+							validInput = false;
+						}
+
+					}
+				}
+
+				for (int i = 0; i < 4; i++) {
+
+					lastChoice[i] = Integer.valueOf(split[i]);
+
+				}
+			} else {
+				validInput = false;
+			}
+
+		}
+		count++;
+		sc.close();
 
 	}
 
-	public int[] select() {
+	/*public int[] select() {
 
 		// bez povtarqshti i ot 0-9
 		Scanner sc = new Scanner(System.in);
@@ -160,14 +202,14 @@ public class Game {
 		count++;
 		return lastChoice;
 
-	}
+	}*/
 
-	public int checkBulls(int[] nums) {
+	public int checkBulls() {
 		//!!!
 		int bulls = 0;
-
+		
 		for (int i = 0; i < 4; i++) {
-			if (nums[i] == gameNums[i]) {
+			if (lastChoice[i] == gameNums[i]) {
 				bulls++;
 			}
 		}
@@ -176,14 +218,14 @@ public class Game {
 
 	}
 
-	public int checkCows(int[] nums) {
+	public int checkCows() {
 		//!!!
 		int cows = 0;
 		for (int i = 0; i < 4; i++) {
 
 			for (int j = 0; j < 4; j++) {
 
-				if (nums[i] == gameNums[j]) {
+				if (lastChoice[i] == gameNums[j]) {
 					cows++;
 				}
 
@@ -201,6 +243,8 @@ public class Game {
 		return cows;
 
 	}
+	
+	
 
 	public static boolean validate(String in) {
 

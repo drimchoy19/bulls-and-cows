@@ -16,10 +16,10 @@ public class Testing {
 				System.out.println("Game end reached max attempts : 21 !");
 				isEnd = true;
 			}
-			int[] n = g.select();
+			g.select();
 
-			int bulls = g.checkBulls(n); // 1!
-			int cows = g.checkCows(n); // 2!
+			int bulls = g.checkBulls(); // 1!
+			int cows = g.checkCows(); // 2!
 			
 
 			g.printLast();
