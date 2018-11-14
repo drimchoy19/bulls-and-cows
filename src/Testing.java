@@ -10,31 +10,28 @@ public class Testing {
 		g.initPlayer(sc);
 		g.start();
 		System.out.println(g.getGameNums());
-		System.out.println(g.startTime.getTime() + " ");
 		boolean isEnd = false;
 		while (!isEnd) {
-			if (g.count == 20) {
+			if (g.getAttempts() == 20) {
 				System.out.println("Game end reached max attempts : 21 !");
 				isEnd = true;
 			}
 			int[] n = g.select();
 
 			int bulls = g.checkBulls(n); // 1!
-			int cows = g.checkCows(n) - bulls; // 2!
-			g.lastChoices[g.count][4] = cows;
-			g.lastChoices[g.count][5] = bulls;
+			int cows = g.checkCows(n); // 2!
+			
 
-			g.count++;
 			g.printLast();
 
 			if (bulls == 4) {
-				g.endTime = Calendar.getInstance();
+				g.setEndTime(Calendar.getInstance());
 				System.out.println("Congrats " + g.getPlayerName() + " you have " + bulls + " bulls!");
-				System.out.println(g.calcTime());
-				System.out.println("Attempts :" + g.count);
+				System.out.println("Time :"+g.calcTime());
+				System.out.println("Attempts :" + g.getAttempts());
 				isEnd = true;
 			} else {
-				g.endTime = Calendar.getInstance();
+				g.setEndTime(Calendar.getInstance());
 				System.out.println("You have " + (cows) + " cows!");
 				System.out.println("You have " + bulls + " bulls!");
 				System.out.println("Elapsed time :" + g.calcTime());

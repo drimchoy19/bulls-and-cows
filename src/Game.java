@@ -7,13 +7,39 @@ import java.util.regex.Pattern;
 public class Game {
 
 	private String playerName;
-	private int[] gameNums = new int[] { -1, -1, -1, -1 };
-	int count = 0;
-	Calendar startTime = Calendar.getInstance();
-	Calendar endTime;
-	int[][] lastChoices = new int[21][6];
-	int[] lastChoice = new int[6];
+	private int[] gameNums;
+	private int count;
+	private Calendar startTime ;
+	private Calendar endTime;
+	private int[][] lastChoices;
+	private int[] lastChoice;
+	
+	public Game() {
+		
+		gameNums = new int[] { -1, -1, -1, -1 };
+		count = 0;
+		lastChoices = new int[21][6];
+		lastChoice = new int[6];
+		
+	}
+	
 
+	public void setStartTime() {
+		
+		startTime = Calendar.getInstance();
+		
+	}
+	public void setEndTime(Calendar end) {
+		
+		this.endTime = end;
+		
+	}
+	
+	public int getAttempts() {
+		
+		return count;
+		
+	}
 	public String getPlayerName() {
 
 		return this.playerName;
@@ -42,8 +68,8 @@ public class Game {
 		int endSeconds = this.endTime.get(Calendar.SECOND);
 
 		int seconds = (endMinutes - startMinutes) * 60 + (endSeconds - startSeconds);
-		int minutes = seconds / 60;
-		return "Minutes:" + minutes + " Seconds:" + seconds;
+		
+		return "Minutes:" + seconds / 60 + " Seconds:" + seconds % 60;
 
 	}
 
@@ -51,14 +77,14 @@ public class Game {
 
 		String pr = "";
 
-		for (int i = 0; i < count; i++) {
+		for (int i = 1; i <= count; i++) {
 
 			for (int j = 0; j < 4; j++) {
 
 				pr = pr.concat("" + lastChoices[i][j]);
 
 			}
-			pr = pr.concat(" Cows:" + lastChoices[i][4] + " Bulls:" + lastChoices[i][5]);
+			pr = pr.concat(" Cows:" + lastChoices[i][5] + " Bulls:" + lastChoices[i][4]);
 			System.out.println(pr);
 			pr = "";
 		}
@@ -68,7 +94,7 @@ public class Game {
 	public void start() {
 
 		Scanner sc = new Scanner(System.in);
-
+		this.setStartTime();
 		System.out.println("Lets play " + this.playerName + " !");
 
 		Random rnd = new Random();
@@ -123,7 +149,7 @@ public class Game {
 
 				for (int i = 0; i < 4; i++) {
 
-					lastChoices[count][i] = lastChoice[i] = Integer.valueOf(split[i]);
+					lastChoice[i] = Integer.valueOf(split[i]);
 
 				}
 			} else {
@@ -131,12 +157,13 @@ public class Game {
 			}
 
 		}
+		count++;
 		return lastChoice;
 
 	}
 
 	public int checkBulls(int[] nums) {
-
+		//!!!
 		int bulls = 0;
 
 		for (int i = 0; i < 4; i++) {
@@ -150,7 +177,7 @@ public class Game {
 	}
 
 	public int checkCows(int[] nums) {
-
+		//!!!
 		int cows = 0;
 		for (int i = 0; i < 4; i++) {
 
@@ -163,7 +190,14 @@ public class Game {
 			}
 
 		}
-		lastChoice[5] = cows - lastChoice[4]; // !!!
+		cows -= lastChoice[4];
+		lastChoice[5] = cows; // !!!
+		int a = 0;
+		for(int b : lastChoice) {
+			
+			lastChoices[count][a] = b;
+			a++;
+		}
 		return cows;
 
 	}
@@ -175,5 +209,6 @@ public class Game {
 		return matcher.matches();
 
 	}
+	
 
 }
