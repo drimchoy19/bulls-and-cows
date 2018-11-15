@@ -14,6 +14,7 @@ public class Game {
 	private int[][] lastChoices;
 	private int[] lastChoice;
 	
+	
 	public Game() {
 		
 		gameNums = new int[] { -1, -1, -1, -1 };
@@ -95,6 +96,8 @@ public class Game {
 
 		Scanner sc = new Scanner(System.in);
 		this.setStartTime();
+		this.count = 0;
+		this.lastChoices = new int[21][6];
 		System.out.println("Lets play " + this.playerName + " !");
 
 		Random rnd = new Random();
@@ -117,7 +120,6 @@ public class Game {
 			}
 			gameNums[i] = select;
 		}
-		sc.close();
 
 	}
 	
@@ -158,52 +160,9 @@ public class Game {
 
 		}
 		count++;
-		sc.close();
 
 	}
-
-	/*public int[] select() {
-
-		// bez povtarqshti i ot 0-9
-		Scanner sc = new Scanner(System.in);
-		String in;
-		boolean validInput = false;
-		String[] split = null;
-		while (!validInput) {
-			System.out.println("Choose 4 numbers");
-			in = sc.nextLine();
-			validInput = Game.validate(in);
-			split = in.split("");
-			if (split.length < 4) {
-				validInput = false;
-			}
-			if (split.length == 4) {
-				for (int i = 0; i < 4; i++) {
-					for (int j = i + 1; j < 4; j++) {
-
-						if (split[i].equals(split[j])) {
-							System.out.println("Invalid numbers");
-							validInput = false;
-						}
-
-					}
-				}
-
-				for (int i = 0; i < 4; i++) {
-
-					lastChoice[i] = Integer.valueOf(split[i]);
-
-				}
-			} else {
-				validInput = false;
-			}
-
-		}
-		count++;
-		return lastChoice;
-
-	}*/
-
+	
 	public int checkBulls() {
 		//!!!
 		int bulls = 0;
