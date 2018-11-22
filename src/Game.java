@@ -9,38 +9,39 @@ public class Game {
 	private String playerName;
 	private int[] gameNums;
 	private int count;
-	private Calendar startTime ;
+	private Calendar startTime;
 	private Calendar endTime;
 	private int[][] lastChoices;
 	private int[] lastChoice;
-	
-	
+
 	public Game() {
-		
+
 		gameNums = new int[] { -1, -1, -1, -1 };
 		count = 0;
 		lastChoices = new int[21][6];
 		lastChoice = new int[6];
-		
-	}
-	
 
+	}
+
+	// !
 	public void setStartTime() {
-		
+
 		startTime = Calendar.getInstance();
-		
+
 	}
+
 	public void setEndTime(Calendar end) {
-		
+
 		this.endTime = end;
-		
+
 	}
-	
+
 	public int getAttempts() {
-		
+
 		return count;
-		
+
 	}
+
 	public String getPlayerName() {
 
 		return this.playerName;
@@ -50,6 +51,16 @@ public class Game {
 	public String getGameNums() {
 
 		return "" + gameNums[0] + gameNums[1] + gameNums[2] + gameNums[3];
+	}
+	
+	public Calendar getStartTime() {
+		
+		return this.startTime;
+	}
+	
+	public Calendar getEndTime() {
+		
+		return this.endTime;	
 	}
 
 	public String initPlayer(Scanner inSc) {
@@ -69,16 +80,16 @@ public class Game {
 		int endSeconds = this.endTime.get(Calendar.SECOND);
 
 		int seconds = (endMinutes - startMinutes) * 60 + (endSeconds - startSeconds);
-		
+
 		return "Minutes:" + seconds / 60 + " Seconds:" + seconds % 60;
 
 	}
 
-	public void printLast() {
+	public void printLastChoice() {
 
 		String pr = "";
 
-		for (int i = 1; i <= count; i++) {
+		for (int i = 0; i < count; i++) {
 
 			for (int j = 0; j < 4; j++) {
 
@@ -122,7 +133,7 @@ public class Game {
 		}
 
 	}
-	
+
 	public void select() {
 
 		Scanner sc = new Scanner(System.in);
@@ -145,7 +156,6 @@ public class Game {
 							System.out.println("Invalid numbers");
 							validInput = false;
 						}
-
 					}
 				}
 
@@ -162,11 +172,11 @@ public class Game {
 		count++;
 
 	}
-	
+
 	public int checkBulls() {
-		//!!!
+		// !!!
 		int bulls = 0;
-		
+
 		for (int i = 0; i < 4; i++) {
 			if (lastChoice[i] == gameNums[i]) {
 				bulls++;
@@ -178,7 +188,7 @@ public class Game {
 	}
 
 	public int checkCows() {
-		//!!!
+		// !!!
 		int cows = 0;
 		for (int i = 0; i < 4; i++) {
 
@@ -194,16 +204,32 @@ public class Game {
 		cows -= lastChoice[4];
 		lastChoice[5] = cows; // !!!
 		int a = 0;
-		for(int b : lastChoice) {
-			
-			lastChoices[count][a] = b;
+		for (int b : lastChoice) {
+
+			lastChoices[count - 1][a] = b;
 			a++;
 		}
 		return cows;
 
 	}
-	
-	
+
+	public String choicesToString() {
+
+		String str = "";
+		for (int i = 0; i < count; i++) {
+			if (i == (count - 1)) {
+				str += "" + this.lastChoices[i][0] + this.lastChoices[i][1] + this.lastChoices[i][2]
+						+ this.lastChoices[i][3];
+
+			} else {
+				str += "" + this.lastChoices[i][0] + this.lastChoices[i][1] + this.lastChoices[i][2]
+						+ this.lastChoices[i][3] + "*";
+				// +this.lastChoices[i][4]+this.lastChoices[i][5];
+			}
+		}
+		return str;
+
+	}
 
 	public static boolean validate(String in) {
 
@@ -212,6 +238,5 @@ public class Game {
 		return matcher.matches();
 
 	}
-	
 
 }

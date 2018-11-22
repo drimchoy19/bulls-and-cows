@@ -4,8 +4,10 @@ import java.util.Scanner;
 public class Testing {
 
 	public static void main(String[] args) {
-
+		
 		Game g = new Game();
+		FileOperator fo = new FileOperator();
+		fo.createFile();
 		Scanner sc = new Scanner(System.in);
 		g.initPlayer(sc);
 		g.start();
@@ -16,14 +18,14 @@ public class Testing {
 				System.out.println("Game end reached max attempts : 21 !");
 				isEnd = true;
 			}
-			
+
 			g.select();
 			
 			int bulls = g.checkBulls(); // 1!
 			int cows = g.checkCows(); // 2!
 			
 
-			g.printLast();
+			g.printLastChoice();
 
 			if (bulls == 4) {
 				g.setEndTime(Calendar.getInstance());
@@ -40,15 +42,17 @@ public class Testing {
 					System.out.println(g.getGameNums());
 					
 				}else {
-					
+					fo.writeFile(g);
 					System.out.println("Good game/s!");
 					
 				}
 			} else {
 				g.setEndTime(Calendar.getInstance());
+
 				System.out.println("You have " + (cows) + " cows!");
 				System.out.println("You have " + bulls + " bulls!");
 				System.out.println("Elapsed time :" + g.calcTime());
+				
 			}
 
 		}
